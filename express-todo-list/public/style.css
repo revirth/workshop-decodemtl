@@ -1,0 +1,32 @@
+.todoListNav {
+  display: flex;
+}
+
+.todoListNav > div {
+  display: flex;
+  min-width: 100px;
+  border: solid 1px red;
+  margin: 5px;
+}
+
+.todolist {
+  border: dashed 1px red;
+}
+
+.done {
+  text-decoration: line-through;
+}
+
+form {
+  margin: 0px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+ul li:before {
+  content: "\2014";
+  position: absolute;
+  margin-left: -20px;
+}

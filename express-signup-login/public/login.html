@@ -1,0 +1,18 @@
+<html>
+  <body>
+    <h1>Login</h1>
+    <form action="/login" method="POST" enctype="multipart/form-data">
+      <label>UserID</label>
+      <input type="text" name="username" />
+
+      <label>Password</label>
+      <input type="password" name="password" />
+
+      <input type="submit" value="Login" />
+    </form>
+  </body>
+
+  <script>
+    document.getElementsByName("username")[0].focus();
+  </script>
+</html>

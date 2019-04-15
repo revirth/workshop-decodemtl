@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <style>
+            .postby { font-style: italic; }
+            .postat { color: maroon; }
+            .greeting { text-align: right; }
+        </style>
+    </head>
+
+    <body>
+        <div class="greeting">
+            <form action="/logout" method="POST">
+            ##LOGINUSER##
+                <input type="submit" value="LOGOUT" />
+            </form>
+        </div>
+        <hr>
+        <form action="/thread" method="POST" enctype="multipart/form-data">
+            <input type="file" name="images" multiple  accept="image/x-png,image/gif,image/jpeg" />
+            <br />
+            <textarea name="post" id="post" cols="80" rows="3"></textarea>
+            <input type="submit" value="Post">
+        </form>
+        <hr>
+        <div class="postlist">
+            ##POSTLIST##
+        </div>
+    </body>
+
+    <script>
+        document.getElementById('post').focus();
+    </script>
+</html>
