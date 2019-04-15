@@ -9,10 +9,9 @@
 
     <body>
         <div class="greeting">
-            <form action="/logout" method="POST">
             ##LOGINUSER##
-                <input type="submit" value="LOGOUT" />
-            </form>
+            <button onclick="location.href='/profile';" >UserProfile</button>
+            <button onclick="location.href='/logout';" >LOGOUT</button>
         </div>
         <hr>
         <form action="/thread" method="POST" enctype="multipart/form-data">

@@ -12,15 +12,32 @@ let upload = multer({
 
 let fs = require('fs');
 
+let randomColor = () => {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+
+    return [r.toString(16),g.toString(16),b.toString(16)];
+}
+
 let new_User = (username, password) => ({
     username: username,
-    password: password
+    password: password,
+    color: '#' + randomColor().join(','),
 });
 let userlist = [];
 let userlist_filename = __dirname + '/userlist.json';
+let saveUserList = () => fs.writeFileSync(userlist_filename, JSON.stringify(userlist));
 
 let sessions = {};
 let currentUser = (req) => sessions[req.cookies.sid];
+let currentUserColor = (user) => {
+    try {
+        return userlist.filter(u=>u.username === user)[0].color;    
+    } catch (error) {
+        return randomColor();
+    }
+}
 
 let new_Post = (username, post, images) => ({
     username: username,
@@ -32,11 +49,15 @@ let new_Post = (username, post, images) => ({
 });
 let postlist = [];
 let postlist_filename = __dirname + '/postlist.json';
+let savePostList = () => fs.writeFileSync(postlist_filename, JSON.stringify(postlist));
+let greetingUser = (req) =>  `Hello <label style="color:`+ currentUserColor(currentUser(req)) +`">` + currentUser(req) + `</label>` + 
+                             `, Your SID is ` + req.cookies.sid + 
+                             `, You posted `+ postlist.filter(p=>p.username === currentUser(req)).length  +`th threads`;
 
 app.use("/images", express.static(__dirname + '/uploads'));
 
 app.use(function (req, res, next) {
-    console.log('[', dateFormat( Date.now() ), ']', req.path, JSON.stringify(req.body), currentUser(req));
+    console.log('[', dateFormat( Date.now() ), '] [', req.method, ']', req.path, JSON.stringify(req.body), currentUser(req));
     next()
 });
 
@@ -58,7 +79,7 @@ app.post("/signup", upload.none(), (req, res) => {
         return;
     }
     userlist.push(user);
-    fs.writeFileSync(userlist_filename, JSON.stringify(userlist));
+    saveUserList()
 
     res.send(`<h1>successful signup</h1><a href="/">Login</a>`);
 });
@@ -83,13 +104,13 @@ app.post("/login", upload.none(), (req, res) => {
             </script>`);
 });
 
-app.post("/logout", (req, res) => {
+app.get("/logout", (req, res) => {
     res.cookie('sid', '');
 
     res.redirect("/");
 });
 
-let html_post = (post) => post.post + ` written by <label class='postby'>`+post.username+`</label> 
+let html_post = (post) => post.post + ` written by <label class='postby' style='color:`+ currentUserColor(post.username) +`'>`+post.username+`</label> 
                                         at <label class='postat'>`+dateFormat(post.date, "")+`</label>` + 
                                         (post['likes'] && post.likes.length > 0 ? ' likes by ' + post.likes.join(',') : '');
 
@@ -128,7 +149,7 @@ app.get("/thread", (req, res) => {
     posttags.push('<ul>');
 
     let html = fs.readFileSync(__dirname + "/public/post.html").toString();
-    html = html.replace('##LOGINUSER##', `Hello ` + currentUser(req) + `, Your SID is ` + req.cookies.sid);
+    html = html.replace('##LOGINUSER##', greetingUser(req));
     html = html.replace('##POSTLIST##', posttags.join(''));
 
     res.send(html);
@@ -155,7 +176,8 @@ app.post("/thread", upload.array('images', 5), (req, res) => {
     const images = uploadImages(req.files);
     const post = new_Post(currentUser(req), req.body.post, images);
     postlist.splice(0, 0, post);
-    fs.writeFileSync(postlist_filename, JSON.stringify(postlist));
+
+    savePostList();
 
     res.redirect("/thread");
 });
@@ -171,7 +193,7 @@ app.post("/like", upload.none(), (req, res) => {
         likes.splice(idx, 1);
     }
 
-    fs.writeFileSync(postlist_filename, JSON.stringify(postlist));
+    savePostList();
 
     res.redirect("/thread");
 });
@@ -186,8 +208,63 @@ app.post("/comment", upload.none(), (req, res) => {
 
     comments.push(comment);
 
-    fs.writeFileSync(postlist_filename, JSON.stringify(postlist));
+    savePostList();
     
+    res.redirect("/thread");
+});
+
+app.get('/profile', (req, res) => {
+
+    if( currentUser(req) === undefined ) {
+        res.redirect("/");
+        return;
+    }
+
+    let html = fs.readFileSync(__dirname + "/public/userProfile.html").toString();
+    html = html.replace('##LOGINUSER##', greetingUser(req));
+    res.send(html);
+});
+
+app.post('/changeUserName', upload.none(), (req, res) => {
+
+    if( currentUser(req) === undefined ) {
+        res.redirect("/");
+        return;
+    }
+    
+    let newName = req.body.username;
+
+    if(userlist.filter(user=> user.username === newName).length > 0) {
+        res.send(`You cannot use the username : `+ newName + 
+                 `<a href='/changeUserName'/>Go Back</a>&nbsp;<a href='/thread'/>Go Thread</a>`);
+    }
+
+    // change postlist
+    postlist.forEach(post => {
+        if(post.username === currentUser(req))
+            post.username = newName;
+    });
+    savePostList();
+
+    // change userlist
+    userlist.forEach(user => {
+        if(user.username === currentUser(req))
+            user.username = newName;
+    });
+    saveUserList();
+
+    res.redirect("/logout");
+});
+
+app.post("/changeUserColor", upload.none(), (req, res) => {
+    
+    // change userlist
+    userlist.forEach(user => {
+        if(user.username === currentUser(req))
+            user['color'] = req.body.color;
+    });
+    saveUserList();
+
     res.redirect("/thread");
 });
 

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Change User Name</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <!-- <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script> -->
+</head>
+<body>
+    <div>
+        ##LOGINUSER##
+    </div>
+    <form action="/changeUserName" method="POST" enctype="multipart/form-data">
+        <input type="text" name="username">
+        <input type="submit" value="Change Name">
+    </form>
+    <form action="/changeUserColor" method="POST" enctype="multipart/form-data">
+        <input type="color" name="color">
+        <input type="submit" value="Change Color">
+        <!-- TODO: Random color 추가  -->
+    </form>
+</body>
+</html>
