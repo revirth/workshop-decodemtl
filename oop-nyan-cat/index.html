@@ -1,0 +1,108 @@
+<html lang="en">
+  <head>
+    <title>Exploding Kittens</title>
+    <style>
+      .playerL {
+      }
+
+      .playerR {
+        -moz-transform: scaleX(-1);
+        -o-transform: scaleX(-1);
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+        filter: FlipH;
+        -ms-filter: "FlipH";
+      }
+
+      .gradient {
+        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+        font-size: 6rem;
+        font-weight: 100;
+        letter-spacing: 2px;
+        text-align: center;
+        color: #f35626;
+        background-image: -webkit-linear-gradient(92deg, #f35626, #feab3a);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        -webkit-animation: hue 10s infinite linear;
+      }
+
+      @-webkit-keyframes hue {
+        from {
+          -webkit-filter: hue-rotate(0deg);
+        }
+        to {
+          -webkit-filter: hue-rotate(-360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <audio
+      id="mp3_bg"
+      style="display:none;"
+      preload="auto"
+      controls="none"
+    ></audio>
+    <audio
+      id="weaphon0"
+      style="display:none;"
+      SRC="./mp3/weapon0.mp3"
+      preload="auto"
+      controls="none"
+    ></audio>
+    <audio
+      id="weaphon1"
+      style="display:none;"
+      SRC="./mp3/weapon1.mp3"
+      preload="auto"
+      controls="none"
+    ></audio>
+    <audio
+      id="weaphon2"
+      style="display:none;"
+      SRC="./mp3/weapon2.mp3"
+      preload="auto"
+      controls="none"
+    ></audio>
+    <audio
+      id="weaphon3"
+      style="display:none;"
+      SRC="./mp3/weapon3.mp3"
+      preload="auto"
+      controls="none"
+    ></audio>
+    <audio
+      id="weaphon4"
+      style="display:none;"
+      SRC="./mp3/weapon4.mp3"
+      preload="auto"
+      controls="none"
+    ></audio>
+    <audio
+      id="explosion0"
+      style="display:none;"
+      SRC="./mp3/explosion0.mp3"
+      preload="auto"
+      controls="none"
+    ></audio>
+    <audio
+      id="explosion1"
+      style="display:none;"
+      SRC="./mp3/explosion1.mp3"
+      preload="auto"
+      controls="none"
+    ></audio>
+
+    <script src="js/data.js"></script>
+    <script src="js/Text.js"></script>
+    <script src="js/Enemy.js"></script>
+    <script src="js/engine-utilities.js"></script>
+    <script src="js/Engine.js"></script>
+    <script src="js/Weapon.js"></script>
+    <script src="js/Player.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

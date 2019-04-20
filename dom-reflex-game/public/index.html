@@ -1,0 +1,119 @@
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400italic,700,700italic" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="/style.css">
+        <style>
+            #buttons {
+                margin-top: 150px;
+                margin-bottom: 150px;
+                display: flex;
+                justify-content: center;
+            }
+
+            #startGM, #timeout {
+                display: flex;
+                justify-content: center;
+            }
+        </style>
+    </head>
+    <body>
+        
+        <div id='startGM' class="start-btn">Start</div>
+        <div id='buttons'></div>
+        <div id='timeout' class="start-btn"></div>
+
+        <audio id="countSound" src="/18 Count Up Sound.mp3" style="display:none;" preload="auto" controls="none" loop></audio>
+
+    </body>
+    <script>
+        let rndNumber = (max, min) => Math.floor( Math.random() * (max - min + 1) ) + min;
+
+        let divButton = document.querySelector('#buttons');
+        let numButton = rndNumber(7, 4);
+        let click2Win = 0;  
+        let isEndGame = false;
+
+        // time
+        let availTime = rndNumber(1000, 100);
+        let divTimeout = Object.assign( document.querySelector('#timeout'), { innerText: availTime });
+        let objIntervl;
+
+        // sound
+        let countSound = document.querySelector('#countSound');
+        let snd_Button = new Audio('/bounce.mp3');
+
+        // start button
+        document.querySelector('#startGM').addEventListener('click', (event) =>{
+            event.stopPropagation();
+
+            if(isEndGame) return;
+
+            countSound.play();
+
+            objIntervl = setInterval(() => {
+                availTime--;
+                divTimeout.innerText = availTime;
+                
+                if(availTime === 0) {
+
+                    isEndGame = true;
+                    clearInterval(objIntervl);
+                    countSound.pause();
+
+                    setTimeout(() => {
+                        
+                        // TODO: play Lost Sound
+                        
+                        alert('You Lost!!!\n\n' + ":D ".repeat( 150 ));
+                    }, 20);
+                }
+            }, 10);
+        });
+
+        // number buttons
+        for (let i = 0; i < numButton; i++) {
+            let clickBtn = rndNumber(3, 1);
+            click2Win += clickBtn;
+
+            let btn = Object.assign( document.createElement('span'), { innerText: clickBtn } );
+            btn.setAttribute('class', 'video-game-button');
+            
+            btn.addEventListener('click', event => {
+                event.stopPropagation();
+
+                snd_Button.play();
+
+                if(btn.innerText === '0') return;
+
+                btn.innerText = +btn.innerText - 1;
+                click2Win--;
+
+                if(click2Win === 0 && isEndGame) {
+                    alert('... are you happy now?');
+                }
+                else if(click2Win === 0) {
+                    isEndGame = true;
+                    clearInterval(objIntervl);
+                    countSound.pause();
+                    
+                    // TODO: play Win Sound
+
+                    alert('You Win !!!');
+                }
+            });
+
+            divButton.appendChild(btn);
+        }
+        
+        // Set TimeOut
+        // setTimeout(() => {
+        //     if(click2Win === 0 || isEndGame) return;
+
+        //     clearInterval(objIntervl);
+
+        //     alert('You Lost!!!\n\n' + ":D ".repeat( 200 ));
+            
+        // }, availTime);
+        
+    </script>
+</html>

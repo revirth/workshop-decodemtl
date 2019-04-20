@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </head>
+            
+    <body>
+        <h2>Signup</h2> 
+        <form action="/signup" method="POST" enctype="multipart/form-data">
+            <div>Enter your username</div>
+            <input type="text" name="username" required></input>
+            <div>Enter your password</div>
+            <input type="text" name="password" required></input>
+            <input type="submit" value="sign me up!"></input>
+        </form>
+        <h2>Login</h2>
+        <form action="/login" method="POST" enctype="multipart/form-data">
+            <div>Username</div>
+            <input type="text" name="username" required></input>
+            <div>Password</div>
+            <input type="text" name="password" required></input>
+            <input type="submit" value="log me in!"></input>
+        </form>
+    </body>
+
+    <script>
+        document.getElementsByName('username')[1].focus();
+    </script>
+</html>

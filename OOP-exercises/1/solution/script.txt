@@ -1,0 +1,33 @@
+The purpose of this exercise is to rewrite the program in the o o p style. <break time="800ms"/>
+
+The first thing to do is to make sure you can run the program. <break time="800ms"/>
+
+Our goal is to write a program with classes that has the same output as the one on the screen. <break time="800ms"/>
+
+It is important to understand the source code before you start. The best way to understand the program is to rewrite it in your own terms. <break time="800ms"/>
+
+
+Looking at the source code, we see that there are dogs, cats and people. Each of these corresponds to a class <break time="800ms"/>
+
+Let's start by writing the dog class<break time="800ms"/>
+
+I'm going to copy paste, it's ok to copy paste in this exercise<break time="800ms"/>
+
+
+Each dog has 4 instance properties: a name, a favourite dog food, a breed and an age. We call them instance properties because each dog can have different values for those properties<break time="800ms"/>
+
+Each dog can do two things: make a sound and be fed. However, I decided that it is the owner that will do the feeding. Therefore, the only action a dog can perform is to make a sound<break time="800ms"/>
+
+Now that the dog is finished, we do the same for the cat <break time="800ms"/>
+
+Each cat has 3 instance properties: name, favourite Cat Food and age <break time="800ms"/>
+
+Cats can only do one thing: make an animalSound <break time="800ms"/>
+
+Now I will rewrite the People class <break time="800ms"/>
+
+Every person has a name and an inventory of dog and cat food. <break time="800ms"/>
+
+People can feed dogs and feed cats. <break time="800ms"/>
+
+Now it is time to rewrite the code at the bottom of the source file <break time="800ms"/>

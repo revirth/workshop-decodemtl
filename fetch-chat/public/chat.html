@@ -1,0 +1,148 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <style>
+    ::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+</style>
+</head>
+
+<body> 
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-dark">
+                        <li class="breadcrumb-item text-light active" aria-current="page" style="display: flex;">
+                            <select name="chat-room" id="chat-room" class="form-control" style="padding:0px; margin-right:10px; height:25px;">
+                                <!-- <option value="">general</option> -->
+                            </select>
+                        Messages
+                        </li>
+                    </ol>
+                </nav>
+                
+                <ul id="msg-list" class="list-group nav-stacked" style="height: 250px; overflow-y: scroll;"></ul>
+            </div>
+            <div class="col-md-4">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-dark">
+                        <li class="breadcrumb-item text-light active" aria-current="page">Direct Messages</li>
+                    </ol>
+                </nav>
+
+                <ul id="dm-msg-list" class="list-group"></ul>
+            </div>
+            <div class="col-md-2">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-dark">
+                        <li class="breadcrumb-item text-light active" aria-current="page">ActiveUser</li>
+                    </ol>
+                </nav>
+                
+                <div id="activeUsers"></div>
+            </div>
+        </div>
+        <hr>        
+        <form id="chat-form" enctype="multipart/form-data">
+            <div class="form-row">
+                <div class="col-md-2">
+                    <select id="target-user" name="target-user" class="form-control">
+                        <option value="">All</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <input type="file" name="images" class="form-control" accept="image/x-png,image/gif,image/jpeg" multiple />                  
+                </div>
+                <div class="col-md-6">
+                    <input type="text" name="message" class="form-control" placeholder="What do you want to say?" required></input>
+                </div>
+                <div class="col-md-2">
+                    <input type="submit" class="form-control btn-info" value="Send Message"></input>
+                </div>
+            </div>
+        </form>
+
+        <div class="form-row">
+            <div class="col-md-4">
+                <form id="change-name-form">
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <input type="text" name="username" placeholder="You want to change your name?" class="form-control"></input>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="submit" value="Change Name" class="form-control btn-info"></input>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-4">
+                <form id="change-color-form">
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <input type="color" name='color' class="form-control"></input>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="submit" value="Change Color" class="form-control btn-info"></input>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-4">
+                <form id="create-chat-room-form">
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <input type="text" name='roomname' class="form-control" required></input>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="submit" value="Create Room" class="form-control btn-info"></input>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="/static/app.js"></script>
+<script>
+
+    // WINDOW
+    let resizeDivs = () => 
+        document.querySelector('#msg-list').style.height = window.innerHeight - 220 + 'px';
+
+    // https://developer.mozilla.org/en-US/docs/Web/API/Window/DOMContentLoaded_event
+    window.addEventListener('DOMContentLoaded', (event) => {
+        console.log('DOM fully loaded and parsed');
+
+        // FORM
+        document.getElementsByName("message")[0].focus();
+
+        resizeDivs();
+
+    });
+
+    window.addEventListener('resize', () => {
+
+        resizeDivs();
+
+    });
+
+</script>
+
+</html>
