@@ -1,0 +1,41 @@
+enum PLAYER_MOVE {
+  LEFT,
+  RIGHT,
+  UP,
+  DOWN
+}
+
+let PLAYER_WIDTH = 75;
+let PLAYER_HEIGHT = 75;
+let PLAYER_ZINDEX = 10;
+let PLAYER_LIFE = 1;
+let PLAYER_ALIVE = () => PLAYER_LIFE > 0;
+let PLAYER_SCORE = 0;
+let LEVELUP_POINT = 500;
+let PLAYER_SCORE_POINT = LEVELUP_POINT / 100;
+let PLAYER_LEVEL = 0;
+
+let GAME_HEIGHT = PLAYER_HEIGHT * 10;
+let GAME_WIDTH = PLAYER_WIDTH * 5;
+let GAME_FRAME = 50;
+let GAME_PAUSE = false;
+let GAME_OVER = false;
+let GAME_OVER_LEVEL = 5;
+let EXPLOSE_MS = 400;
+
+let TEXT_ZINDEX = 2000;
+
+let ENEMY_WIDTH = 75;
+let ENEMY_HEIGHT = 75;
+let ENEMY_ZINDEX = 5;
+let ENEMY_NUMBER = 5;
+let ENEMY_DIAGONAL = true;
+
+let WEAPON_WIDTH = 75;
+let WEAPON_HEIGHT = 75;
+let WEAPON_ZINDEX = 5;
+let WEAPON_NUMBER = 5;
+
+let DEBUG_MODE = true;
+
+let consoleD = (...args) => console.log(args);

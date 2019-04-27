@@ -84,7 +84,7 @@ class Engine {
     PLAYER_LEVEL = level;
 
     this.textR.update("Level " + PLAYER_LEVEL);
-    this.txtLV.update(PLAYER_LEVEL);
+    this.txtLV.update("Level\n" + PLAYER_LEVEL);
     this.pause_ms = GAME_PAUSE_MS;
 
     // change bg music?
@@ -113,7 +113,7 @@ class Engine {
       theRoot,
       0,
       50,
-      "bold 400px Georgia",
+      "bold 200px Georgia",
       "gradient",
       true
     );

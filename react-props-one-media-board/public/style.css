@@ -1,0 +1,33 @@
+* {
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+figure {
+  border: thin #c0c0c0 solid;
+  display: flex;
+  flex-flow: column;
+  padding: 5px;
+  /* max-width: 220px; */
+  margin: auto;
+}
+
+img {
+  /* max-width: 220px; */
+  max-height: 300px;
+}
+
+figcaption {
+  background-color: #222;
+  color: #fff;
+  font: italic smaller sans-serif;
+  font-size: 33px;
+  padding: 3px;
+  text-align: center;
+}
+
+.green {
+  color: green;
+}
+.red {
+  color: red;
+}

@@ -20,7 +20,7 @@ class Weapon {
 
     if (level > GAME_MAX_LEVEL) level = GAME_MAX_LEVEL;
 
-    new Audio("./mp3/weapon"+level+".mp3").play();
+    new Audio("./mp3/weapon" + level + ".mp3").play();
 
     // SND_WEAPHON[level].pause();
     // SND_WEAPHON[level].play();
