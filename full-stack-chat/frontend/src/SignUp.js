@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import mapDispatchToProps from "./actions";
 
-export default class SignUp extends Component {
+class SignUp extends Component {
   constructor(props) {
     super(props);
 
@@ -12,11 +14,15 @@ export default class SignUp extends Component {
 
     fetch("http://localhost:4000/signup", {
       method: "POST",
-      body: new FormData(e.target)
+      body: new FormData(e.target),
+      credentials: "include"
     })
       .then(res => res.json())
       .then(res => {
-        console.log(res);
+        if (res.success) {
+          console.log(res);
+          this.props.afterLogin();
+        } else alert(res.message);
       });
   };
 
@@ -52,3 +58,8 @@ export default class SignUp extends Component {
     );
   }
 }
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(SignUp);

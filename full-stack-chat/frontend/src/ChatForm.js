@@ -1,32 +1,63 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import mapDispatchToProps from "./actions";
+import io from "socket.io-client";
 
-export class ChatForm extends Component {
+class ChatForm extends Component {
   constructor(props) {
     super(props);
 
     this.state = { message: "" };
+
+    this.socket = io.connect("http://localhost:4000");
+
+    // https://developer.mozilla.org/en-US/docs/Web/API/document/cookie
+    this.sid = document.cookie.replace(
+      /(?:(?:^|.*;\s*)sid\s*\=\s*([^;]*).*$)|^.*$/,
+      "$1"
+    );
   }
+
+  componentDidMount = () => {
+    document.getElementsByTagName("input")[0].focus();
+  };
 
   handleSubmit = e => {
     e.preventDefault();
 
-    fetch("http://localhost:4000/message", {
-      method: "POST",
-      body: new FormData(e.target),
-      credentials: "include"
-    })
-      .then(res => res.json())
-      .then(res => {
-        this.props.setmessage(this.state.message);
-        this.setState({ message: "" });
-      });
+    // this.socket.emit("public", this.state.message, res => {
+    //   console.log(res);
+    //   this.setState({ message: "" });
+    // });
+
+    this.socket.emit("public", this.state.message, this.sid, msg => {
+      // this.props.addMessage(msg);
+      this.setState({ message: "" });
+    });
+
+    // fetch("http://localhost:4000/message", {
+    //   method: "POST",
+    //   body: new FormData(e.target),
+    //   credentials: "include"
+    // })
+    //   .then(res => res.json())
+    //   .then(res => {
+    //     // this.props.setmessage(this.state.message);
+    //     this.setState({ message: "" });
+    //   });
   };
 
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
+  };
+
+  handleDeleteAll = e => {
+    e.preventDefault();
+
+    fetch("http://localhost:4000/deleteAll", {
+      method: "POST",
+      credentials: "include"
+    });
   };
 
   render() {
@@ -38,8 +69,10 @@ export class ChatForm extends Component {
             name="message"
             value={this.state.message}
             onChange={this.handleChange}
+            required
           />
           <input type="submit" value="Add Message" />
+          <button onClick={this.handleDeleteAll}>Delete All My Messages</button>
         </form>
       </div>
     );

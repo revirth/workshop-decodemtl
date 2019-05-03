@@ -12,9 +12,12 @@ class Login extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
+    let f = new FormData();
+    Object.keys(this.state).forEach(st => f.append(st, this.state[st]));
+
     fetch("http://localhost:4000/login", {
       method: "POST",
-      body: new FormData(e.target),
+      body: f,
       credentials: "include"
     })
       .then(res => res.json())
@@ -22,12 +25,15 @@ class Login extends Component {
         if (res.success) {
           console.log(res);
           this.props.afterLogin();
-        } else alert("Retry!!!");
+        } else alert(res.message);
       });
   };
 
   handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({
+      [e.target.name]:
+        e.target.type === "checkbox" ? e.target.checked : e.target.value
+    });
   };
 
   render() {
@@ -53,6 +59,16 @@ class Login extends Component {
             required
           />
           <input type="submit" value="Login" />
+          <br />
+
+          <label>
+            <input
+              type="checkbox"
+              name="rememberme"
+              onChange={this.handleChange}
+            />
+            Remember Me
+          </label>
         </form>
       </div>
     );

@@ -7,8 +7,19 @@ import Login from "./Login";
 import ChatForm from "./ChatForm";
 import ChatMessages from "./ChatMessages";
 import Logout from "./Logout";
+import mapsDispatchToProps from "./actions";
 
 class App extends Component {
+  component;
+  componentDidMount = () => {
+    fetch("http://localhost:4000/rememberme", {
+      credentials: "include"
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.success) this.props.afterLogin();
+      });
+  };
   render = () => (
     <div>
       {this.props.loggedIn ? (
@@ -35,4 +46,7 @@ let mapStateToProps = st => {
   };
 };
 
-export default connect(mapStateToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapsDispatchToProps
+)(App);
