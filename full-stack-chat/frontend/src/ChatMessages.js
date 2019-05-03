@@ -8,8 +8,10 @@ class ChatMessages extends Component {
     super(props);
 
     this.socket = io.connect("http://localhost:4000");
-    this.socket.on("public", msg => {
-      this.props.addMessage(msg);
+
+    this.socket.on("public", param => {
+      if (Array.isArray(param)) this.props.setmessages(param);
+      else this.props.addMessage(param);
     });
   }
 
@@ -46,11 +48,20 @@ class ChatMessages extends Component {
   // };
 
   render() {
-    return this.props.messages.map((msg, i) => (
-      <div key={i}>
-        [{msg.time}] {msg.username} : {msg.message}
-      </div>
-    ));
+    return (
+      <ul>
+        {this.props.messages.map((msg, i) => (
+          <li key={i}>
+            [{msg.time}] {msg.username} : {msg.message}
+            {msg.images && msg.images.length > 0
+              ? msg.images.map(img => (
+                  <img width="100px" src={"http://localhost:4000" + img} />
+                ))
+              : undefined}
+          </li>
+        ))}
+      </ul>
+    );
   }
 }
 

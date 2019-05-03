@@ -25,26 +25,21 @@ class ChatForm extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    // this.socket.emit("public", this.state.message, res => {
-    //   console.log(res);
+    // this.socket.emit("public", this.state.message, this.sid, msg => {
+    //   // this.props.addMessage(msg);
     //   this.setState({ message: "" });
     // });
 
-    this.socket.emit("public", this.state.message, this.sid, msg => {
-      // this.props.addMessage(msg);
-      this.setState({ message: "" });
-    });
-
-    // fetch("http://localhost:4000/message", {
-    //   method: "POST",
-    //   body: new FormData(e.target),
-    //   credentials: "include"
-    // })
-    //   .then(res => res.json())
-    //   .then(res => {
-    //     // this.props.setmessage(this.state.message);
-    //     this.setState({ message: "" });
-    //   });
+    fetch("http://localhost:4000/message", {
+      method: "POST",
+      body: new FormData(e.target),
+      credentials: "include"
+    })
+      .then(res => res.json())
+      .then(res => {
+        // this.props.setmessage(this.state.message);
+        this.setState({ message: "" });
+      });
   };
 
   handleChange = e => {
@@ -70,6 +65,12 @@ class ChatForm extends Component {
             value={this.state.message}
             onChange={this.handleChange}
             required
+          />
+          <input
+            type="file"
+            name="images"
+            multiple
+            accept="image/x-png,image/gif,image/jpeg"
           />
           <input type="submit" value="Add Message" />
           <button onClick={this.handleDeleteAll}>Delete All My Messages</button>

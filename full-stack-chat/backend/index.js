@@ -1,5 +1,10 @@
-let app = require("express")();
-let upload = require("multer")();
+let express = require("express");
+let app = express();
+let fs = require("fs");
+let upload = require("multer")({
+  dest: __dirname + "/uploads/"
+});
+app.use("/images", express.static("uploads"));
 
 let cookieParser = require("cookie-parser");
 let cors = require("cors");
@@ -55,6 +60,10 @@ app.post("/login", upload.none(), (req, res) => {
       res.cookie("sid", sessionId, { maxAge: min * 5 });
     } else res.cookie("sid", sessionId);
 
+    let loginUsers = Object.values(sessions).filter(
+      name => name !== req.body.username
+    );
+
     res.send({ success: true });
     return;
   }
@@ -96,19 +105,39 @@ app.get("/logout", upload.none(), (req, res) => {
   res.send({ success: true });
 });
 
-app.post("/message", upload.none(), (req, res) => {
+app.post("/message", upload.array("images", 2), (req, res) => {
   console.log("TCL: /message", req.body, req.cookies);
 
   let sessionId = req.cookies.sid;
   let username = sessions[sessionId];
-  let message = req.body.message;
+  let images = [];
+
+  if (req.files && req.files.length > 0) {
+    req.files.forEach((file, i) => {
+      let ext = file.originalname.split(".").pop();
+      let name = `${file.filename}.${ext}`;
+
+      fs.renameSync(file.path, `${__dirname}/uploads/${name}`);
+
+      images.push(`/images/${name}`);
+    });
+  }
+
+  let message = {
+    username: username,
+    message: req.body.message,
+    time: new Date(),
+    images: images
+  };
 
   if (username === undefined) {
     res.send({ success: false, message: "You have to login first" });
     return;
   }
 
-  messages.push({ username: username, message: message, time: new Date() });
+  messages.push(message);
+
+  io.emit("public", message);
 
   console.log("TCL: /message -> messages", messages);
 
@@ -130,6 +159,8 @@ app.post("/deleteAll", (req, res) => {
   let username = sessions[req.cookies.sid];
 
   messages = messages.filter(msg => msg.username !== username);
+
+  io.emit("public", messages);
 
   res.send({ success: true });
 });
