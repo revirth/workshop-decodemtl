@@ -15,7 +15,7 @@ class Login extends Component {
     let f = new FormData();
     Object.keys(this.state).forEach(st => f.append(st, this.state[st]));
 
-    fetch(`http://${window.location.hostname}:4000/login", {
+    fetch(`http://${window.location.hostname}:4000/login`, {
       method: "POST",
       body: f,
       credentials: "include"
