@@ -12,7 +12,7 @@ import mapsDispatchToProps from "./actions";
 class App extends Component {
   component;
   componentDidMount = () => {
-    fetch("http://localhost:4000/rememberme", {
+    fetch(`http://${window.location.hostname}:4000/rememberme`, {
       credentials: "include"
     })
       .then(res => res.json())

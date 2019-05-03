@@ -7,35 +7,46 @@ class ChatMessages extends Component {
   constructor(props) {
     super(props);
 
-    this.socket = io.connect("http://localhost:4000");
+    this.socket = io.connect(`http://${window.location.hostname}:4000`);
 
     this.socket.on("public", param => {
       if (Array.isArray(param)) this.props.setmessages(param);
       else this.props.addMessage(param);
+    });
+
+    this.socket.on("loginUsers", param => {
+      if (!Array.isArray(param)) return;
+
+      console.log("set-loginUsers", param);
+
+      this.props.setLoginUsers(param);
     });
   }
 
   componentDidMount = () => {
     // let getMessages = () => {
     // if (!this.props.loggedIn) return;
-    fetch("http://localhost:4000/messages", { credentials: "include" })
+    fetch(`http://${window.location.hostname}:4000/messages`, {
+      credentials: "include"
+    })
       .then(res => res.json())
       .then(res => this.props.setmessages(res));
     // };
     // let getLoginUsers = () => {
     //   if (!this.props.loggedIn) return;
-    //   fetch("http://localhost:4000/loginUsers", { credentials: "include" })
-    //     .then(res => res.json())
-    //     .then(res => {
-    //       console.log(res);
-    //       if (this.props.loginUsers.length !== res.length) {
-    //         let loginUsers = res.filter(
-    //           username => this.props.loginUsers.indexOf(username) === -1
-    //         );
-    //         alert(`${loginUsers} has logged in!!`);
-    //       }
-    //       this.props.setLoginUsers(res);
-    //     });
+    fetch(`http://${window.location.hostname}:4000/loginUsers`, {
+      credentials: "include"
+    })
+      .then(res => res.json())
+      .then(res => {
+        // if (this.props.loginUsers.length !== res.length) {
+        //   let loginUsers = res.filter(
+        //     username => this.props.loginUsers.indexOf(username) === -1
+        //   );
+        //   alert(`${loginUsers} has logged in!!`);
+        // }
+        this.props.setLoginUsers(res);
+      });
     // };
     // this.timerMessage = setInterval(getMessages, 1000);
     // this.timerLoginUsers = setInterval(getLoginUsers, 1000);
@@ -55,7 +66,10 @@ class ChatMessages extends Component {
             [{msg.time}] {msg.username} : {msg.message}
             {msg.images && msg.images.length > 0
               ? msg.images.map(img => (
-                  <img width="100px" src={"http://localhost:4000" + img} />
+                  <img
+                    width="100px"
+                    src={`http://${window.location.hostname}:4000` + img}
+                  />
                 ))
               : undefined}
           </li>

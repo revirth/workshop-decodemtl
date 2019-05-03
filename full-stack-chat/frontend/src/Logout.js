@@ -4,7 +4,7 @@ import mapDispatchToProps from "./actions";
 
 class Logout extends Component {
   handleLogout = () => {
-    fetch("http://localhost:4000/logout", {
+    fetch(`http://${window.location.hostname}:4000/logout`, {
       credentials: "include"
     }).then(res => {
       console.log(res);

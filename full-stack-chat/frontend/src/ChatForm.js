@@ -9,7 +9,7 @@ class ChatForm extends Component {
 
     this.state = { message: "" };
 
-    this.socket = io.connect("http://localhost:4000");
+    this.socket = io.connect(`http://${window.location.hostname}:4000`);
 
     // https://developer.mozilla.org/en-US/docs/Web/API/document/cookie
     this.sid = document.cookie.replace(
@@ -30,7 +30,7 @@ class ChatForm extends Component {
     //   this.setState({ message: "" });
     // });
 
-    fetch("http://localhost:4000/message", {
+    fetch(`http://${window.location.hostname}:4000/message`, {
       method: "POST",
       body: new FormData(e.target),
       credentials: "include"
@@ -49,7 +49,7 @@ class ChatForm extends Component {
   handleDeleteAll = e => {
     e.preventDefault();
 
-    fetch("http://localhost:4000/deleteAll", {
+    fetch(`http://${window.location.hostname}:4000/deleteAll`, {
       method: "POST",
       credentials: "include"
     });

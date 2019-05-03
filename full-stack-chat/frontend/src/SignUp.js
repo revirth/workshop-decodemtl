@@ -12,7 +12,7 @@ class SignUp extends Component {
   handleSubmit = e => {
     e.preventDefault();
 
-    fetch("http://localhost:4000/signup", {
+    fetch(`http://${window.location.hostname}:4000/signup`, {
       method: "POST",
       body: new FormData(e.target),
       credentials: "include"
