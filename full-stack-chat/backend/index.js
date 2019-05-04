@@ -7,9 +7,10 @@ let upload = require("multer")({
 app.use("/images", express.static("uploads"));
 
 let cookieParser = require("cookie-parser");
-let cors = require("cors");
 app.use(cookieParser());
-app.use(cors({ credentials: true, origin: "http://13.88.232.65:3000" }));
+
+let cors = require("cors");
+app.use(cors({ credentials: true, origin: `http://${process.env.CORS}` }));
 
 let passwords = { a: "b", b: "c" };
 let messages = [];
@@ -196,6 +197,6 @@ io.on("connection", socket => {
   });
 });
 
-http.listen(4000, function() {
+http.listen(process.env.BACKEND_PORT, function() {
   console.log("listening on *:4000");
 });
