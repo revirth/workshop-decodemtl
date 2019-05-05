@@ -30,14 +30,18 @@ class ChatForm extends Component {
     //   this.setState({ message: "" });
     // });
 
+    let form = e.target;
+
     fetch(`http://${window.location.hostname}:4000/message`, {
       method: "POST",
-      body: new FormData(e.target),
+      body: new FormData(form),
       credentials: "include"
     })
       .then(res => res.json())
       .then(res => {
         // this.props.setmessage(this.state.message);
+        // debugger;
+        form.reset();
         this.setState({ message: "" });
       });
   };

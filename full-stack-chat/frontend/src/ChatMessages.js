@@ -65,8 +65,9 @@ class ChatMessages extends Component {
           <li key={i}>
             [{msg.time}] {msg.username} : {msg.message}
             {msg.images && msg.images.length > 0
-              ? msg.images.map(img => (
+              ? msg.images.map((img, i) => (
                   <img
+                    key={i}
                     width="100px"
                     src={`http://${window.location.hostname}:4000` + img}
                   />

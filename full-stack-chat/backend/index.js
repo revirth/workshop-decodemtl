@@ -10,7 +10,9 @@ let cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
 let cors = require("cors");
-app.use(cors({ credentials: true, origin: `http://${process.env.CORS}` }));
+app.use(
+  cors({ credentials: true, origin: `http://${process.env.FRONTEND_PATH}` })
+);
 
 let passwords = { a: "b", b: "c" };
 let messages = [];
