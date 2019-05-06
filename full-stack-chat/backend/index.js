@@ -14,9 +14,26 @@ app.use(
   cors({ credentials: true, origin: `http://${process.env.FRONTEND_PATH}` })
 );
 
-let passwords = { a: "b", b: "c" };
+let passwords = {};
 let messages = [];
 let sessions = {};
+
+//#region INIT
+
+const MongoClient = require("mongodb").MongoClient;
+const client = new MongoClient(process.env.MLAB_CONNECTURL, {
+  useNewUrlParser: true
+});
+client.connect(err => {
+  passwords = client.db(process.env.MLAB_DATABASE).collection("users");
+
+  passwords.findOne({ username: "a" }, (err, result) => {
+    if (err) throw err;
+
+    console.log(result);
+  });
+});
+//#endregion
 
 let generateId = () => "" + Math.floor(Math.random() * 100000000);
 
@@ -32,25 +49,50 @@ let login = username => {
 app.post("/signup", upload.none(), (req, res) => {
   console.log("TCL: /signup", req.body);
 
-  if (passwords[req.body.username]) {
-    res.send({
-      success: false,
-      message: `'${req.body.username}' is already used`
+  // if (passwords[req.body.username]) {
+  //   res.send({
+  //     success: false,
+  //     message: `'${req.body.username}' is already used`
+  //   });
+  //   return;
+  // }
+
+  client.connect(err => {
+    passwords = client.db(process.env.MLAB_DATABASE).collection("users");
+
+    passwords.findOne({ username: req.body.username }, (err, result) => {
+      if (err) throw err;
+
+      if (result !== null) {
+        console.log("TCL: /signup", result);
+
+        res.send({
+          success: false,
+          message: `'${req.body.username}' is already used`
+        });
+        return;
+      } else {
+        passwords.insertOne(
+          { username: req.body.username, password: req.body.password },
+          (err, result) => {
+            console.log("TCL: /signup -> passwords", passwords);
+            let sessionId = login(req.body.username);
+            res.cookie("sid", sessionId);
+
+            res.send({ success: true });
+          }
+        );
+      }
     });
-    return;
-  }
+  });
 
-  passwords[req.body.username] = req.body.password;
-  console.log("TCL: /signup -> passwords", passwords);
-
-  let sessionId = login(req.body.username);
-  res.cookie("sid", sessionId);
-
-  res.send({ success: true });
+  // passwords[req.body.username] = req.body.password;
+  // console.log("TCL: /signup -> passwords", passwords);
 });
 
 app.post("/login", upload.none(), (req, res) => {
   console.log("TCL: /login", req.body);
+
   if (
     passwords[req.body.username] &&
     passwords[req.body.username] === req.body.password
