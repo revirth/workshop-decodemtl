@@ -1,0 +1,16 @@
+.searchSubmit{
+    border-style: none;
+    background-color: red;
+    font-family: 'Playfair Display', serif;
+    color:white;
+    padding:10px;
+    font-size: 14pt;
+    border-radius: 0px 0px 10px 0px;
+}
+
+.searchBar{
+    padding:8px;
+    border-style: none;
+    border-radius: 7px 7px 7px 0px;
+    width: 95%;
+}

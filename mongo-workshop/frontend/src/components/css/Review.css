@@ -1,0 +1,28 @@
+.reviewCard{
+background: white;
+margin: 10px;
+margin-top:2vh;
+margin-bottom:2vh;
+padding:10px;
+filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.151))
+}
+.reviewHeader{
+    font-family: 'Playfair Display', serif;
+    text-align: right;
+
+}
+.username{
+
+}
+.rating{
+}
+.reviewBody{
+
+    text-align: left !important;
+}
+.review{
+    padding: 10px;
+    margin: 10px;
+    margin-top: 1vh;
+font-family: 'Merriweather', serif;
+}

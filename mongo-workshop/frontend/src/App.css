@@ -1,0 +1,121 @@
+.App {
+  text-align: center;
+}
+
+.container{
+  margin-left: 30vw;
+  margin-right: 30vw;
+  margin-top: 10vh;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+.showButton{
+  text-align: left;
+  width: 20vw;
+  padding-top: 1vh;
+  padding-bottom:1vh;
+  background-color: black;  
+  border-style: none;
+  border-radius: 0px 0px 10px 0px;
+  color:white;
+  font-size: 20pt;
+  font-weight: bold;
+      font-family: 'Playfair Display', serif;
+}
+
+.nav{
+background-color:rgb(219, 219, 219);
+z-index:10000;
+}
+.navBurger{
+transition: transform 1s ease-in-out;
+}
+
+.twist{
+    animation: twist 0.5s;
+    animation-fill-mode: forwards; 
+}
+
+p{
+  font-family: 'Merriweather', serif;
+}
+
+body{
+  background-color: whitesmoke;
+}
+
+button:focus{
+  outline: none;
+  border: none;
+}
+
+
+
+.navContainer{
+  position:relative;
+  width: 400px;
+  transform:translateX(-100%);
+}
+
+
+
+.navSlide{
+  animation: slide 0.2s;
+  animation-fill-mode: forwards;
+}
+
+a{
+  text-decoration: none;
+  color: white;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+a:hover{
+  text-shadow: 1px 1px 1px rgb(182, 182, 182);
+}
+
+@keyframes twist {
+  from{
+    transform: rotate(0deg)
+  }
+  to{
+    transform: rotate(-90deg)
+  }
+}
+
+@keyframes slide{
+  from{
+    transform: translateX(-100%)
+  }
+  to{
+   transform: translateX(0%)
+  }
+}
+
+
+@media only screen and (max-width: 600px){
+  .container{
+    margin-left: 10vw;
+    margin-right: 10vw;
+  }
+}
+

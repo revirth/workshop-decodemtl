@@ -1,0 +1,29 @@
+.linkList{
+    list-style-type: none;
+}
+
+ul{
+    -webkit-padding-start: 10px;
+}
+
+li{
+    font-size: 12pt;
+    margin-bottom: 10px;
+    margin-right:10px;
+}
+
+hr{
+  border-color: white;
+
+}
+
+.navLinks{
+  background-color: rgb(211, 211, 211);
+  position: absolute;
+  list-style-type: none;
+  padding: 10px;
+  z-index: 9999;
+  transition: all 1s;
+  padding-right:30px;
+  filter:drop-shadow(-1px 1px 1px rgba(0, 0, 0, 0.192))
+}
